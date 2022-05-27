@@ -16,10 +16,11 @@ if ($directoriesToRenameWithSpace -gt $null){
     Write-Output "[INFO] Found the following directories: "
     Write-Output $directoriesToRenameWithSpace
     foreach ($dir in $directoriesToRenameWithSpace){
-        $newName = $dir -replace '\s', ","
+        $splitedDirName = $dir.Split(" ")
+        $newName = "{0},{1}" -f $splitedDirName[1], $splitedDirName[0]
         Rename-Item $dir $newName –Confirm
     }
-    Write-Output "[INFO] The directories have been adjusted to the Name,LastName format"
+    Write-Output "[INFO] The directories have been adjusted to the LastName,Name format"
 }
 
 [string[]]$directoriesToRenameWithComma = (Get-ChildItem -Path $Path -Filter "*,*").Name
@@ -34,5 +35,5 @@ if ($directoriesToRenameWithComma -gt $null){
         $newName = $dir -replace ",", "_"
         Rename-Item $dir $newName –Confirm
     }
-    Write-Output "[INFO] The directories have been adjusted to the Name_LastName format"
+    Write-Output "[INFO] The directories have been adjusted to the LastName_Name format"
 }
